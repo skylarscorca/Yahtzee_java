@@ -10,6 +10,9 @@ import javax.swing.JPanel;
 import java.awt.Graphics;
 import java.awt.Color;
 import java.awt.GridLayout;
+import javax.swing.JToggleButton;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 
 public class Yahtzee
 {
@@ -28,6 +31,7 @@ public class Yahtzee
 class YahtzeePanel extends JPanel implements ActionListener
 {
     JPanel scorecard1, scorecard2;
+    JToggleButton dice[];
 
     public YahtzeePanel()
     {
@@ -40,14 +44,17 @@ class YahtzeePanel extends JPanel implements ActionListener
         scorecard2 = new JPanel();
         score_init(scorecard1);
         score_init(scorecard2);
+        dice_init();
         setLayout(new FlowLayout());
         add(scorecard1);
         add(scorecard2);
+        for(int i = 0; i < 5; i++){
+            add(dice[i]);
+        }
     }
 
     public void score_init(JPanel panel)
     {
-        //panel = new JPanel();
         panel.setLayout(new GridLayout(13, 2));
         panel.add(new JLabel("Aces"));
         panel.add(new JLabel(""));
@@ -74,6 +81,15 @@ class YahtzeePanel extends JPanel implements ActionListener
         panel.add(new JLabel("YAHTZEE"));
         panel.add(new JLabel(""));
         panel.add(new JLabel("Chance"));
+    }
+
+    public void dice_init()
+    {
+        dice = new JToggleButton[5];
+        for(int i = 0; i < 5; i++){
+            Icon initial_face = new ImageIcon(getClass().getResource("Face_1.png"));
+            dice[i] = new JToggleButton(initial_face);
+        }
     }
 
     public void actionPerformed(ActionEvent e)
