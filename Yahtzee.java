@@ -66,6 +66,7 @@ class YahtzeePanel extends JPanel implements ActionListener
         for(int i = 0; i < 5; i++){
             add(dice[i]);
         }
+        play.setEnabled(false);
         add(roll);
         add(play);
     }
