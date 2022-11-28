@@ -13,6 +13,10 @@ import java.awt.GridLayout;
 import javax.swing.JToggleButton;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.border.Border;
+import javax.swing.BorderFactory;
+import javax.swing.JComponent;
+import java.awt.Component;
 
 public class Yahtzee
 {
@@ -99,6 +103,14 @@ class YahtzeePanel extends JPanel implements ActionListener
         panel.add(new JLabel("YAHTZEE"));
         panel.add(new JLabel(""));
         panel.add(new JLabel("Chance"));
+
+        //set up borders
+        panel.setBorder(BorderFactory.createLineBorder(Color.black));
+        for (Component component : panel.getComponents())
+        {
+            JComponent jcomponent = (JComponent)component;
+            jcomponent.setBorder(BorderFactory.createLineBorder(Color.black));
+        }
     }
 
     public void dice_init()
