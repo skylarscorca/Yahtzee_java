@@ -103,6 +103,7 @@ class YahtzeePanel extends JPanel implements ActionListener
         panel.add(new JLabel("YAHTZEE"));
         panel.add(new JLabel(""));
         panel.add(new JLabel("Chance"));
+        panel.add(new JLabel(""));
 
         //set up borders
         panel.setBorder(BorderFactory.createLineBorder(Color.black));
