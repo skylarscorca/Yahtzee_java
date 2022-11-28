@@ -42,18 +42,27 @@ class YahtzeePanel extends JPanel implements ActionListener
 
     public void start_game()
     {
+        //initialize data
         scorecard1 = new JPanel();
         scorecard2 = new JPanel();
         score_init(scorecard1);
         score_init(scorecard2);
-        dice_init();
         roll = new JButton("Roll");
         roll.addActionListener(this);
         play = new JButton("Play");
         play.addActionListener(this);
+
+        //set up view
         setLayout(new FlowLayout());
         add(scorecard1);
         add(scorecard2);
+        start_round();
+    }
+
+    //only updates dice and buttons, not scorecards
+    public void start_round()
+    {
+        dice_init();
         for(int i = 0; i < 5; i++){
             add(dice[i]);
         }
