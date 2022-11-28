@@ -30,8 +30,10 @@ public class Yahtzee
 
 class YahtzeePanel extends JPanel implements ActionListener
 {
-    JPanel scorecard1, scorecard2;
-    JToggleButton dice[];
+    private JPanel scorecard1, scorecard2;
+    private JToggleButton dice[];
+    private JButton roll;
+    private JButton play;
 
     public YahtzeePanel()
     {
@@ -45,12 +47,18 @@ class YahtzeePanel extends JPanel implements ActionListener
         score_init(scorecard1);
         score_init(scorecard2);
         dice_init();
+        roll = new JButton("Roll");
+        roll.addActionListener(this);
+        play = new JButton("Play");
+        play.addActionListener(this);
         setLayout(new FlowLayout());
         add(scorecard1);
         add(scorecard2);
         for(int i = 0; i < 5; i++){
             add(dice[i]);
         }
+        add(roll);
+        add(play);
     }
 
     public void score_init(JPanel panel)
