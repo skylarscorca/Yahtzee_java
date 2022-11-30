@@ -13,6 +13,10 @@ import java.awt.GridLayout;
 import javax.swing.JToggleButton;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.border.Border;
+import javax.swing.BorderFactory;
+import javax.swing.JComponent;
+import java.awt.Component;
 
 public class Yahtzee
 {
@@ -32,10 +36,12 @@ public class Yahtzee
 class YahtzeePanel extends JPanel implements ActionListener
 {
 
+
     Scoresheet scoresheet;
     Dice dice;
     Integer turn, round;
     JButton roll, play;
+
 
     public YahtzeePanel()
     {
