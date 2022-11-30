@@ -17,7 +17,7 @@ import java.awt.Image;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Dice{
-    Die [] dice;
+    private Die [] dice;
     DicePanel panel;
 
     static String [] iconPaths = {
@@ -36,6 +36,10 @@ public class Dice{
             dice[i] = new Die();
         }
         panel = new DicePanel();
+    }
+
+    public int getValue(int die){
+        return dice[die].getValue();
     }
 
     //need to add Dice functions like roll_dice and hold_die

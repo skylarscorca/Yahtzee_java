@@ -67,9 +67,60 @@ public class Scoresheet{
     void reset_scores(){
         for (int player = 0; player < players; player++){
             for (int score = 0; score < 13; score++){
-                scores[player][score] = 0;
+                scores[player][score] = -1;
             }
         }
+    }
+
+    public int compute_score(Category cat, Dice dice){
+        int score = 0;
+
+        switch(cat){
+            case ACES: 
+                for(int i = 0; i < 5; i++){
+                    if(dice.getValue(i) == 1){
+                        score += 1;
+                    }
+                }
+                break;
+            case TWOS: 
+                for(int i = 0; i < 5; i++){
+                    if(dice.getValue(i) == 2){
+                        score += 2;
+                    }
+                }
+                break;
+            case THREES: 
+                for(int i = 0; i < 5; i++){
+                    if(dice.getValue(i) == 3){
+                        score += 3;
+                    }
+                }
+                break;
+            case FOURS: 
+                for(int i = 0; i < 5; i++){
+                    if(dice.getValue(i) == 4){
+                        score += 4;
+                    }
+                }
+                break;
+            case FIVES: 
+                for(int i = 0; i < 5; i++){
+                    if(dice.getValue(i) == 5){
+                        score += 5;
+                    }
+                }
+                break;
+            case SIXES: 
+                for(int i = 0; i < 5; i++){
+                    if(dice.getValue(i) == 6){
+                        score += 6;
+                    }
+                }
+                break;
+        }
+        
+        return score;
     }
 
     // for actually calculating the scores, initially I was thinking of doing a strategy pattern kind
@@ -80,7 +131,7 @@ public class Scoresheet{
     class ScoresheetPanel extends JPanel {
         private ButtonGroup group;
 
-        void update_panel(){
+        ScoresheetPanel(){
             this.setLayout(new GridLayout(14, players + 1));
 
             group = new ButtonGroup();
@@ -95,7 +146,7 @@ public class Scoresheet{
                 this.add(new_button);
                 group.add(new_button);
                 for (int player = 0; player < players; player++){
-                    this.add(new JLabel("" + scores[player][catagory]));
+                    this.add(new JLabel(""));
                 }
             }
 
@@ -110,6 +161,10 @@ public class Scoresheet{
                 JComponent jcomponent = (JComponent)component;
                 jcomponent.setBorder(BorderFactory.createLineBorder(Color.black));
             }
+        }
+
+        void update_panel(){
+
         }
     }
 }
