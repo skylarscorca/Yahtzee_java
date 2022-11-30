@@ -17,9 +17,9 @@ import javax.swing.border.Border;
 import javax.swing.BorderFactory;
 import javax.swing.JComponent;
 import java.awt.Component;
+import javax.swing.ButtonGroup;
 
 public class Scoresheet{
-
     enum Category{
         ACES,
         TWOS,
@@ -56,7 +56,6 @@ public class Scoresheet{
     };
 
     public Scoresheet(int player_count){
-
         players = player_count;
         scores = new int [player_count][13];
         // unsure of how to do prospective scores, maybe that's another arr?
@@ -79,9 +78,12 @@ public class Scoresheet{
     // the function would take in an int[6] or maybe a Dice object would be easier
 
     class ScoresheetPanel extends JPanel {
+        private ButtonGroup group;
 
         void update_panel(){
             this.setLayout(new GridLayout(14, players + 1));
+
+            group = new ButtonGroup();
 
             this.add(new JLabel(""));
             for (int player = 0; player < players; player++){
@@ -89,7 +91,9 @@ public class Scoresheet{
             }
 
             for (int catagory = 0; catagory < 13; catagory++){
-                this.add(new JLabel(scoringCatagories[catagory]));
+                JToggleButton new_button = new JToggleButton(scoringCatagories[catagory]);
+                this.add(new_button);
+                group.add(new_button);
                 for (int player = 0; player < players; player++){
                     this.add(new JLabel("" + scores[player][catagory]));
                 }
@@ -107,7 +111,5 @@ public class Scoresheet{
                 jcomponent.setBorder(BorderFactory.createLineBorder(Color.black));
             }
         }
-
     }
-
 }
