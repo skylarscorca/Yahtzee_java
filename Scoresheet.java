@@ -20,6 +20,22 @@ import java.awt.Component;
 
 public class Scoresheet{
 
+    enum Category{
+        ACES,
+        TWOS,
+        THREES,
+        FOURS,
+        FIVES,
+        SIXES,
+        THREE_KIND,
+        FOUR_KIND,
+        HOUSE,
+        SMALL,
+        LARGE,
+        YAHTZEE,
+        CHANCE
+    }
+
     int [][] scores;
     int players;
     ScoresheetPanel panel;
