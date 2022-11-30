@@ -23,6 +23,7 @@ public class Dice{
     DicePanel panel;
 
     static String [] iconPaths = {
+        "Face_0.png",
         "Face_1.png",
         "Face_2.png",
         "Face_3.png",
@@ -32,9 +33,9 @@ public class Dice{
     };
 
     public Dice(){
-        dice = new Die [6];
-        for (int die = 0; die < 6; die++){
-            dice[die] = new Die();
+        dice = new Die [5]; //there should be five
+        for (int i = 0; i < 5; ++i){
+            dice[i] = new Die();
         }
         panel = new DicePanel();
         panel.update_panel();
@@ -43,12 +44,16 @@ public class Dice{
     //need to add Dice functions like roll_dice and hold_die
 
     class Die{
-        public int value;
-        boolean held;
+        private int value;
+        private boolean held;
 
         public Die(){
             value = 0;
             held = false;
+        }
+
+        public int getValue(){
+            return value;
         }
 
         void toggle_hold(){
@@ -57,7 +62,7 @@ public class Dice{
 
         void roll(){
             if (!held){
-                value = ThreadLocalRandom.current().nextInt(0, 6);
+                value = ThreadLocalRandom.current().nextInt(1, 7);
             }
         }
 
@@ -71,7 +76,7 @@ public class Dice{
 
             for (Die die : dice){
 
-                ImageIcon imageIcon = new ImageIcon(getClass().getResource(iconPaths[die.value])); // load the image to a imageIcon
+                ImageIcon imageIcon = new ImageIcon(getClass().getResource(iconPaths[die.getValue()])); // load the image to a imageIcon
                 Image image = imageIcon.getImage(); // transform it 
                 Image newimg = image.getScaledInstance(64, 64,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way  
                 Icon face = new ImageIcon(newimg);  // transform it back

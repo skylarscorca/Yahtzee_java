@@ -13,6 +13,10 @@ import java.awt.GridLayout;
 import javax.swing.JToggleButton;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.border.Border;
+import javax.swing.BorderFactory;
+import javax.swing.JComponent;
+import java.awt.Component;
 
 public class Scoresheet{
 
@@ -73,6 +77,18 @@ public class Scoresheet{
                 for (int player = 0; player < players; player++){
                     this.add(new JLabel("" + scores[player][catagory]));
                 }
+            }
+
+            //draw borders
+            boolean first = true;
+            for (Component component : this.getComponents())
+            {
+                if(first){
+                    first = false;
+                    continue;
+                }
+                JComponent jcomponent = (JComponent)component;
+                jcomponent.setBorder(BorderFactory.createLineBorder(Color.black));
             }
         }
 
