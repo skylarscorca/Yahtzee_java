@@ -7,7 +7,7 @@ we're so professtional we using `git`
 Official Yahtzee Rules:
 https://www.hasbro.com/common/instruct/yahtzee.pdf
 
-#TODO
+# TODO 鸞奈
 
 - add event handling for die holding
 - scoresheet add prospective scores vs selected scores
