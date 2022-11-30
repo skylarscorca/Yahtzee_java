@@ -21,4 +21,4 @@ https://www.hasbro.com/common/instruct/yahtzee.pdf
 - new game (select players)
 
 
-<img title="a title" alt="Alt text" src="/images/boo.svg">
+<img title="a title" alt="Alt text" src="Face_1.png">
