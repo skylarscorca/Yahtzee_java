@@ -35,27 +35,34 @@ public class Yahtzee
 
 class YahtzeePanel extends JPanel implements ActionListener
 {
-
-
-    Scoresheet scoresheet;
-    Dice dice;
-    Integer turn, round;
-    JButton roll, play;
-
+    private Scoresheet scoresheet;
+    private Dice dice;
+    private Integer turn, round;
+    private JButton roll, play;
 
     public YahtzeePanel()
     {
         //start_game();
         scoresheet = new Scoresheet(2);
-        dice = new Dice();
         turn = 3;
-        round = 1;
-        roll = new JButton();
-        play = new JButton();
+        round = 0;
+        roll = new JButton("ROLL");
+        play = new JButton("PLAY");
 
         setLayout(new FlowLayout());
         add(scoresheet.panel);
+        start_round();
+    }
+
+    //only updates dice and buttons, not scorecards
+    public void start_round()
+    {
+        dice = new Dice();
         add(dice.panel);
+        play.setEnabled(false);
+        add(roll);
+        add(play);
+        round++;
     }
 
     public void actionPerformed(ActionEvent e)
