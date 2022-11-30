@@ -40,34 +40,27 @@ public class Dice{
 
     //need to add Dice functions like roll_dice and hold_die
     public void roll_dice(){
-        for(Die die : dice){
-            die.roll();
+        for(int i = 0; i < 5; i++){
+            if(!panel.dice_buttons[i].isSelected()){
+                dice[i].roll();
+            }
         }
     }
 
     class Die{
         private int value;
-        private boolean held;
 
         public Die(){
             value = 0;
-            held = false;
         }
 
         public int getValue(){
             return value;
         }
 
-        void toggle_hold(){
-            held = !held;
-        }
-
         void roll(){
-            if (!held){
-                value = ThreadLocalRandom.current().nextInt(1, 7);
-            }
+            value = ThreadLocalRandom.current().nextInt(1, 7);
         }
-
     }
 
     class DicePanel extends JPanel {
@@ -98,7 +91,5 @@ public class Dice{
                 dice_buttons[i].setIcon(face);
             }
         }
-
     }
-
 }
