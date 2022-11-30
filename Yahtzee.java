@@ -44,10 +44,11 @@ class YahtzeePanel extends JPanel implements ActionListener
     {
         //start_game();
         scoresheet = new Scoresheet(2);
-        turn = 3;
         round = 0;
         roll = new JButton("ROLL");
+        roll.addActionListener(this);
         play = new JButton("PLAY");
+        play.addActionListener(this);
 
         setLayout(new FlowLayout());
         add(scoresheet.panel);
@@ -63,10 +64,22 @@ class YahtzeePanel extends JPanel implements ActionListener
         add(roll);
         add(play);
         round++;
+        turn = 0;
     }
 
     public void actionPerformed(ActionEvent e)
     {
+        if(e.getSource() == roll){
+            dice.roll_dice();
+            turn++;
+            if(turn >= 3){
+                roll.setEnabled(false);
+            }
+            dice.panel.update_panel();
+        }
+        else if(e.getSource() == play){
+
+        }
 
     }
 }

@@ -42,6 +42,11 @@ public class Dice{
     }
 
     //need to add Dice functions like roll_dice and hold_die
+    public void roll_dice(){
+        for(Die die : dice){
+            die.roll();
+        }
+    }
 
     class Die{
         private int value;
