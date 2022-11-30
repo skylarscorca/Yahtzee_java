@@ -75,7 +75,7 @@ class YahtzeePanel extends JPanel implements ActionListener
             if(turn >= 3){
                 roll.setEnabled(false);
             }
-            dice.panel.update_panel();
+            dice.panel.update_dice_buttons();
         }
         else if(e.getSource() == play){
 

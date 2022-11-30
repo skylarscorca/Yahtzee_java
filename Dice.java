@@ -17,8 +17,6 @@ import java.awt.Image;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Dice{
-    //JToggleButton dice[];
-
     Die [] dice;
     DicePanel panel;
 
@@ -38,7 +36,6 @@ public class Dice{
             dice[i] = new Die();
         }
         panel = new DicePanel();
-        panel.update_panel();
     }
 
     //need to add Dice functions like roll_dice and hold_die
@@ -74,22 +71,31 @@ public class Dice{
     }
 
     class DicePanel extends JPanel {
-    
+        private JToggleButton dice_buttons[];
 
-        void update_panel(){
-            setLayout(new FlowLayout());
+        public DicePanel(){
+            dice_buttons = new JToggleButton[5];
 
-            for (Die die : dice){
-
-                ImageIcon imageIcon = new ImageIcon(getClass().getResource(iconPaths[die.getValue()])); // load the image to a imageIcon
+            for(int i = 0; i < 5; i++){
+                ImageIcon imageIcon = new ImageIcon(getClass().getResource(iconPaths[0])); // load the initial image to a imageIcon
                 Image image = imageIcon.getImage(); // transform it 
                 Image newimg = image.getScaledInstance(64, 64,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way  
                 Icon face = new ImageIcon(newimg);  // transform it back
 
-                add(new JToggleButton(face));
-                // we'll need to keep these in a arr like you had it so we can reference them, also unsure as to
-                // whether to have each die contain the toggle button and they're all added to the dice panel or
-                // just to keep die as a data class
+                dice_buttons[i] = new JToggleButton(face);
+
+                add(dice_buttons[i]);
+            }
+        }
+
+        void update_dice_buttons(){
+            for(int i = 0; i < 5; i++){
+                ImageIcon imageIcon = new ImageIcon(getClass().getResource(iconPaths[dice[i].getValue()])); // load the image to a imageIcon
+                Image image = imageIcon.getImage(); // transform it 
+                Image newimg = image.getScaledInstance(64, 64,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way  
+                Icon face = new ImageIcon(newimg);  // transform it back
+
+                dice_buttons[i].setIcon(face);
             }
         }
 
