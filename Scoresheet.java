@@ -74,6 +74,9 @@ public class Scoresheet{
 
     public int compute_score(Category cat, Dice dice){
         int score = 0;
+        int [] counts = new int [6];
+        boolean [] present = new boolean [7];
+        int total = 0;
 
         switch(cat){
             case ACES: 
@@ -118,8 +121,112 @@ public class Scoresheet{
                     }
                 }
                 break;
+            case THREE_KIND: 
+                //count dice
+                for(int i = 0; i < 5; i++){
+                    counts[dice.getValue(i) - 1]++;
+                    total += dice.getValue(i);
+                }
+
+                //check for three of kind
+                for(int i = 0; i < 6; i++){
+                    if(counts[i] >= 3){
+                        score = total;
+                    }
+                }
+                break;
+            case FOUR_KIND: 
+                //count dice
+                for(int i = 0; i < 5; i++){
+                    counts[dice.getValue(i) - 1]++;
+                    total += dice.getValue(i);
+                }
+
+                //check for three of kind
+                for(int i = 0; i < 6; i++){
+                    if(counts[i] >= 4){
+                        score = total;
+                    }
+                }
+                break;
+            case HOUSE: 
+                //count dice
+                for(int i = 0; i < 5; i++){
+                    counts[dice.getValue(i) - 1]++;
+                }
+
+                boolean two = false;
+                boolean three = false;
+
+                //find house
+                for(int i = 0; i < 6; i++){
+                    if(counts[i] == 2){
+                        two = true;
+                    }
+                    if(counts[i] == 3){
+                        three = true;
+                    }
+                    if(counts[i] == 5){
+                        two = three = true;
+                    }
+                }
+
+                //check for house
+                if(two && three){
+                    score = 25;
+                }
+                break;
+            case SMALL: 
+                //find dice
+                for(int i = 0; i < 5; i++){
+                    present[dice.getValue(i)] = true;
+                }
+
+                //check for small
+                if(present[1] && present[2] && present[3] && present[4]){
+                    score = 30;
+                }
+                else if(present[2] && present[3] && present[4] && present[5]){
+                    score = 30;
+                }
+                else if(present[3] && present[4] && present[5] && present[6]){
+                    score = 30;
+                }
+                break;
+            case LARGE: 
+                //find dice
+                for(int i = 0; i < 5; i++){
+                    present[dice.getValue(i)] = true;
+                }
+
+                //check for large
+                if(present[1] && present[2] && present[3] && present[4] && present[5]){
+                    score = 40;
+                }
+                else if(present[2] && present[3] && present[4] && present[5] && present[6]){
+                    score = 40;
+                }
+                break;
+            case YAHTZEE: 
+                //count dice
+                for(int i = 0; i < 5; i++){
+                    counts[dice.getValue(i) - 1]++;
+                }
+
+                //check for yahtzee
+                for(int i = 0; i < 6; i++){
+                    if(counts[i] == 5){
+                        score = 50;
+                    }
+                }
+                break;
+            case CHANCE: 
+                for(int i = 0; i < 5; i++){
+                    score += dice.getValue(i);
+                }
+                break;
         }
-        
+    
         return score;
     }
 
