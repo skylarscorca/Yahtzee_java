@@ -49,7 +49,7 @@ public class Yahtzee
       save.addActionListener(yp);
       load.addActionListener(yp);
       frame.add(yp);
-      frame.setSize(550, 425); // set frame size
+      frame.setSize(550, 450); // set frame size
       frame.setVisible(true); // display frame
    }
 }
@@ -73,18 +73,24 @@ class YahtzeePanel extends JPanel implements ActionListener, Serializable
         play = new JButton("PLAY");
         play.addActionListener(this);
 
+        buildPanel();
+        start_round();
+    }
+
+    public void buildPanel(){
+        this.removeAll();
+
         setLayout(new FlowLayout());
         add(scoresheet.panel);
-        start_round();
+        add(dice.panel);
+        add(roll);
+        add(play);
     }
 
     //only updates dice and buttons, not scorecards
     public void start_round()
     {
-        add(dice.panel);
         play.setEnabled(false);
-        add(roll);
-        add(play);
         round++;
         turn = 0;
     }
@@ -118,6 +124,9 @@ class YahtzeePanel extends JPanel implements ActionListener, Serializable
             this.playable = loaded_panel.playable;
 
             dice.panel.update_dice_buttons();
+
+            buildPanel();
+            scoresheet.panel.update_panel();
 
             System.out.println("Loaded previous game!");
         } 
