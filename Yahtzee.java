@@ -21,12 +21,14 @@ import java.awt.Component;
 import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
+import java.io.Serializable;
+import java.io.*;
 
 public class Yahtzee
 {
     private static JMenuBar mb;
     private static JMenu options;
-    private static JMenuItem save, load;
+    static JMenuItem save, load;
 
    public static void main( String args[] )
    { 
@@ -44,18 +46,20 @@ public class Yahtzee
         frame.setJMenuBar(mb);
 
       YahtzeePanel yp = new YahtzeePanel(); 
+      save.addActionListener(yp);
+      load.addActionListener(yp);
       frame.add(yp);
       frame.setSize(700, 500); // set frame size
       frame.setVisible(true); // display frame
    }
 }
 
-class YahtzeePanel extends JPanel implements ActionListener
+class YahtzeePanel extends JPanel implements ActionListener, Serializable
 {
     private Scoresheet scoresheet;
     private Dice dice;
     private Integer turn, round;
-    private JButton roll, play;
+    private transient JButton roll, play;
 
     public YahtzeePanel()
     {
@@ -84,6 +88,47 @@ class YahtzeePanel extends JPanel implements ActionListener
         turn = 0;
     }
 
+    private void save_data(){
+        try (FileOutputStream f = new FileOutputStream("game_data.txt");
+            ObjectOutputStream s = new ObjectOutputStream(f)) 
+        {
+            s.writeObject(this);
+            s.close();
+            System.out.println("Successfully saved game!");
+        } catch (IOException error) {
+            //error.printStackTrace();
+            System.out.println("IO save error: file stream");
+        }
+    }
+
+    private void load_data(){
+        //read data
+        YahtzeePanel loaded_panel = null;
+        try(FileInputStream in = new FileInputStream("game_data.txt");
+            ObjectInputStream s = new ObjectInputStream(in)) {
+            loaded_panel = (YahtzeePanel) s.readObject();
+            s.close();
+
+            //load into current panel
+            this.scoresheet = loaded_panel.scoresheet;
+            this.dice.copy(loaded_panel.dice);
+            this.turn = loaded_panel.turn;
+            this.round = loaded_panel.round;
+
+            dice.panel.update_dice_buttons();
+
+            System.out.println("Loaded previous game!");
+        } 
+        catch (IOException error) {
+            //error.printStackTrace();
+            System.out.println("IO load error");
+        }
+        catch (ClassNotFoundException e) {
+            //e.printStackTrace();
+            System.out.println("class not found");
+        }
+    }
+
     public void actionPerformed(ActionEvent e)
     {
         if(e.getSource() == roll){
@@ -96,6 +141,12 @@ class YahtzeePanel extends JPanel implements ActionListener
         }
         else if(e.getSource() == play){
 
+        }
+        else if(e.getSource() == Yahtzee.load){
+            load_data();
+        }
+        else if(e.getSource() == Yahtzee.save){
+            save_data();
         }
 
     }

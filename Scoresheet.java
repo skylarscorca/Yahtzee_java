@@ -18,8 +18,9 @@ import javax.swing.BorderFactory;
 import javax.swing.JComponent;
 import java.awt.Component;
 import javax.swing.ButtonGroup;
+import java.io.Serializable;
 
-public class Scoresheet{
+public class Scoresheet implements Serializable{
     enum Category{
         ACES,
         TWOS,

@@ -15,10 +15,11 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import java.awt.Image;
 import java.util.concurrent.ThreadLocalRandom;
+import java.io.Serializable;
 
-public class Dice{
+public class Dice implements Serializable{
     private Die [] dice;
-    DicePanel panel;
+    transient DicePanel panel;
 
     static String [] iconPaths = {
         "Face_0.png",
@@ -38,6 +39,12 @@ public class Dice{
         panel = new DicePanel();
     }
 
+    public void copy(Dice rhs){
+        for (int i = 0; i < 5; ++i){
+            dice[i] = rhs.dice[i];
+        }
+    }
+
     public int getValue(int die){
         return dice[die].getValue();
     }
@@ -51,7 +58,7 @@ public class Dice{
         }
     }
 
-    class Die{
+    class Die implements Serializable{
         private int value;
 
         public Die(){
