@@ -28,7 +28,7 @@ public class Yahtzee
 
       YahtzeePanel yp = new YahtzeePanel(); 
       frame.add(yp);
-      frame.setSize(700, 500); // set frame size
+      frame.setSize(550, 425); // set frame size
       frame.setVisible(true); // display frame
    }
 }
@@ -39,11 +39,13 @@ class YahtzeePanel extends JPanel implements ActionListener
     private Dice dice;
     private Integer turn, round;
     private JButton roll, play;
+    private boolean playable;
 
     public YahtzeePanel()
     {
         //start_game();
-        scoresheet = new Scoresheet(2);
+        dice = new Dice();
+        scoresheet = new Scoresheet(2, dice, this);
         round = 0;
         roll = new JButton("ROLL");
         roll.addActionListener(this);
@@ -58,7 +60,6 @@ class YahtzeePanel extends JPanel implements ActionListener
     //only updates dice and buttons, not scorecards
     public void start_round()
     {
-        dice = new Dice();
         add(dice.panel);
         play.setEnabled(false);
         add(roll);
@@ -66,6 +67,8 @@ class YahtzeePanel extends JPanel implements ActionListener
         round++;
         turn = 0;
     }
+
+    public void set_playable(boolean b){ play.setEnabled(b); }
 
     public void actionPerformed(ActionEvent e)
     {
@@ -78,7 +81,7 @@ class YahtzeePanel extends JPanel implements ActionListener
             dice.panel.update_dice_buttons();
         }
         else if(e.getSource() == play){
-
+            scoresheet.play();
         }
 
     }

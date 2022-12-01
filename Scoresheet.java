@@ -37,7 +37,10 @@ public class Scoresheet{
     }
 
     int [][] scores;
+    int [] prospective;
     int players;
+    Dice handler_dice;
+    YahtzeePanel ypanel;
     ScoresheetPanel panel;
     static String [] scoringCatagories = {
         "Aces",
@@ -55,9 +58,12 @@ public class Scoresheet{
         "Chance"
     };
 
-    public Scoresheet(int player_count){
+    public Scoresheet(int player_count, Dice dice, YahtzeePanel yahtzeePanel){
         players = player_count;
+        handler_dice = dice;
+        ypanel = yahtzeePanel;
         scores = new int [player_count][13];
+        prospective = new int[] { -1 , -1 };
         // unsure of how to do prospective scores, maybe that's another arr?
         reset_scores();
         panel = new ScoresheetPanel();
@@ -230,15 +236,26 @@ public class Scoresheet{
         return score;
     }
 
+    public void play(){
+        prospective = new int [] {-1, -1};
+        panel.update_panel();
+    }
+
     // for actually calculating the scores, initially I was thinking of doing a strategy pattern kind
     // of thing where each catagory has an interface, but I think it might be easier to just have a for loop
     // and a switch of the catagory index that returns the score for that catagory in one function
     // the function would take in an int[6] or maybe a Dice object would be easier
 
-    class ScoresheetPanel extends JPanel {
+    class ScoresheetPanel extends JPanel implements ActionListener {
         private ButtonGroup group;
 
         ScoresheetPanel(){
+            update_panel();
+        }
+
+        void update_panel(){
+            this.removeAll();
+
             this.setLayout(new GridLayout(14, players + 1));
 
             group = new ButtonGroup();
@@ -249,11 +266,19 @@ public class Scoresheet{
             }
 
             for (int catagory = 0; catagory < 13; catagory++){
-                JToggleButton new_button = new JToggleButton(scoringCatagories[catagory]);
+                CategoryToggleButton new_button = new CategoryToggleButton(scoringCatagories[catagory]);
+                new_button.addActionListener(this);
+                new_button.setCatagory(catagory);
                 this.add(new_button);
                 group.add(new_button);
                 for (int player = 0; player < players; player++){
-                    this.add(new JLabel(""));
+                    JLabel label = new JLabel( scores[player][catagory] >= 0 ? "" + scores[player][catagory] : "" );
+
+                    if ( prospective[0] == player && prospective[1] == catagory ){
+                        label.setForeground(Color.RED);    
+                    }
+
+                    this.add(label);
                 }
             }
 
@@ -270,8 +295,37 @@ public class Scoresheet{
             }
         }
 
-        void update_panel(){
+        public void actionPerformed(ActionEvent e){
+
+            CategoryToggleButton pressed = (CategoryToggleButton)e.getSource();
+
+            ypanel.set_playable(true);
+
+            System.out.println(pressed.getCatagory().toString() + " " + pressed.getCatagory().ordinal());
+
+            if ( prospective[0] != -1){ scores [ prospective[0] ][ prospective[1] ] = -1; }
+
+            scores [0][pressed.getCatagory().ordinal()] = compute_score(pressed.getCatagory(), handler_dice);
+            //prospective = new int [2];
+            prospective[0] = 0;
+            prospective[1] = pressed.getCatagory().ordinal();
+
+            update_panel();
 
         }
+    
     }
+
+    class CategoryToggleButton extends JToggleButton{
+        private Category cat;
+
+        CategoryToggleButton(String s) { super(s); }
+
+        public Category getCatagory(){ return cat; }
+
+        public void setCatagory(Category catagory){ cat = catagory; }
+
+        public void setCatagory(int catagory){ cat = Category.values()[catagory]; }
+    }
+
 }
