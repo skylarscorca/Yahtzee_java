@@ -265,11 +265,10 @@ public class Scoresheet{
             }
 
             for (int catagory = 0; catagory < 13; catagory++){
-                CategoryToggleButton new_button = new CategoryToggleButton(scoringCatagories[catagory]);
+                CategoryToggleButton new_button = new CategoryToggleButton(scoringCategories[catagory]);
                 new_button.addActionListener(this);
                 new_button.setCatagory(catagory);
                 this.add(new_button);
-                group.add(new_button);
                 for (int player = 0; player < players; player++){
                     JLabel label = new JLabel( scores[player][catagory] >= 0 ? "" + scores[player][catagory] : "" );
 
