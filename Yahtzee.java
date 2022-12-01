@@ -49,7 +49,7 @@ public class Yahtzee
       save.addActionListener(yp);
       load.addActionListener(yp);
       frame.add(yp);
-      frame.setSize(700, 500); // set frame size
+      frame.setSize(550, 425); // set frame size
       frame.setVisible(true); // display frame
    }
 }
@@ -60,11 +60,13 @@ class YahtzeePanel extends JPanel implements ActionListener, Serializable
     private Dice dice;
     private Integer turn, round;
     private transient JButton roll, play;
+    private boolean playable;
 
     public YahtzeePanel()
     {
         //start_game();
-        scoresheet = new Scoresheet(2);
+        dice = new Dice();
+        scoresheet = new Scoresheet(2, dice, this);
         round = 0;
         roll = new JButton("ROLL");
         roll.addActionListener(this);
@@ -79,7 +81,6 @@ class YahtzeePanel extends JPanel implements ActionListener, Serializable
     //only updates dice and buttons, not scorecards
     public void start_round()
     {
-        dice = new Dice();
         add(dice.panel);
         play.setEnabled(false);
         add(roll);
@@ -114,6 +115,7 @@ class YahtzeePanel extends JPanel implements ActionListener, Serializable
             this.dice.copy(loaded_panel.dice);
             this.turn = loaded_panel.turn;
             this.round = loaded_panel.round;
+            this.playable = loaded_panel.playable;
 
             dice.panel.update_dice_buttons();
 
@@ -128,6 +130,7 @@ class YahtzeePanel extends JPanel implements ActionListener, Serializable
             System.out.println("class not found");
         }
     }
+    public void set_playable(boolean b){ play.setEnabled(b); }
 
     public void actionPerformed(ActionEvent e)
     {
@@ -140,7 +143,7 @@ class YahtzeePanel extends JPanel implements ActionListener, Serializable
             dice.panel.update_dice_buttons();
         }
         else if(e.getSource() == play){
-
+            scoresheet.play();
         }
         else if(e.getSource() == Yahtzee.load){
             load_data();
