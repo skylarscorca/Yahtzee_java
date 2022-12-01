@@ -39,7 +39,7 @@ public class Scoresheet{
     int [][] scores;
     int players;
     ScoresheetPanel panel;
-    static String [] scoringCatagories = {
+    static String [] scoringCategories = {
         "Aces",
         "Twos",
         "Threes",
@@ -231,25 +231,28 @@ public class Scoresheet{
     }
 
     // for actually calculating the scores, initially I was thinking of doing a strategy pattern kind
-    // of thing where each catagory has an interface, but I think it might be easier to just have a for loop
-    // and a switch of the catagory index that returns the score for that catagory in one function
+    // of thing where each category has an interface, but I think it might be easier to just have a for loop
+    // and a switch of the category index that returns the score for that category in one function
     // the function would take in an int[6] or maybe a Dice object would be easier
 
-    class ScoresheetPanel extends JPanel {
+    class ScoresheetPanel extends JPanel
+    {
         private ButtonGroup group;
+        JToggleButton [] cat_buttons;
 
         ScoresheetPanel(){
             this.setLayout(new GridLayout(14, players + 1));
-
-            group = new ButtonGroup();
 
             this.add(new JLabel(""));
             for (int player = 0; player < players; player++){
                 this.add(new JLabel("Player " + (player + 1)));
             }
 
-            for (int catagory = 0; catagory < 13; catagory++){
-                JToggleButton new_button = new JToggleButton(scoringCatagories[catagory]);
+            group = new ButtonGroup();
+            cat_buttons = new JToggleButton [13];
+            for (int category = 0; category < 13; category++){
+                JToggleButton new_button = new JToggleButton(scoringCategories[category]);
+                cat_buttons[category] = new_button;
                 this.add(new_button);
                 group.add(new_button);
                 for (int player = 0; player < players; player++){

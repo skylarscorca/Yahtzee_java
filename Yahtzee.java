@@ -18,13 +18,30 @@ import javax.swing.BorderFactory;
 import javax.swing.JComponent;
 import java.awt.Component;
 
+import java.awt.*;
+import javax.swing.*;
+import java.awt.event.*;
+
 public class Yahtzee
 {
+    private static JMenuBar mb;
+    private static JMenu options;
+    private static JMenuItem save, load;
 
    public static void main( String args[] )
    { 
       JFrame frame = new JFrame("Yahtzee");
       frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        //menu bar
+        mb = new JMenuBar();
+        options = new JMenu("Options");
+        save = new JMenuItem("Save");
+        load = new JMenuItem("Load");
+        options.add(save);
+        options.add(load);
+        mb.add(options);
+        frame.setJMenuBar(mb);
 
       YahtzeePanel yp = new YahtzeePanel(); 
       frame.add(yp);
