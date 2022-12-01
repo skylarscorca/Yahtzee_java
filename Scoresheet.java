@@ -246,12 +246,7 @@ public class Scoresheet{
     // and a switch of the category index that returns the score for that category in one function
     // the function would take in an int[6] or maybe a Dice object would be easier
 
-<<<<<<< HEAD
     class ScoresheetPanel extends JPanel implements ActionListener {
-=======
-    class ScoresheetPanel extends JPanel
-    {
->>>>>>> a9ae6d8b2db4373d598b04c8e02952432b120f74
         private ButtonGroup group;
         JToggleButton [] cat_buttons;
 
@@ -269,18 +264,10 @@ public class Scoresheet{
                 this.add(new JLabel("Player " + (player + 1)));
             }
 
-<<<<<<< HEAD
             for (int catagory = 0; catagory < 13; catagory++){
                 CategoryToggleButton new_button = new CategoryToggleButton(scoringCatagories[catagory]);
                 new_button.addActionListener(this);
                 new_button.setCatagory(catagory);
-=======
-            group = new ButtonGroup();
-            cat_buttons = new JToggleButton [13];
-            for (int category = 0; category < 13; category++){
-                JToggleButton new_button = new JToggleButton(scoringCategories[category]);
-                cat_buttons[category] = new_button;
->>>>>>> a9ae6d8b2db4373d598b04c8e02952432b120f74
                 this.add(new_button);
                 group.add(new_button);
                 for (int player = 0; player < players; player++){
