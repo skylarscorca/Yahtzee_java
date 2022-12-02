@@ -325,7 +325,6 @@ public class Scoresheet implements Serializable{
             prospective[1] = pressed.getCatagory().ordinal();
 
             update_panel();
-
         }
     
     }
