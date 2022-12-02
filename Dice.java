@@ -51,7 +51,7 @@ public class Dice implements Serializable{
 
     public void roll_dice(){
         for(int i = 0; i < 5; i++){
-            if(!panel.dice_buttons[i].isSelected()){
+            if(!panel.dice_buttons[i].isSelected() || dice[i].getValue() == 0){
                 dice[i].roll();
             }
         }

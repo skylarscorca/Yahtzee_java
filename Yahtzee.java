@@ -67,7 +67,11 @@ class YahtzeePanel extends JPanel implements ActionListener, Serializable
 
     public YahtzeePanel()
     {
-        PLAYERS = promptNumPlayers();
+        MainMenu();
+    }   
+    
+    {
+        //PLAYERS = promptNumPlayers();
 
         //start_game();
         dice = new Dice();
@@ -79,9 +83,9 @@ class YahtzeePanel extends JPanel implements ActionListener, Serializable
         play = new JButton("PLAY");
         play.addActionListener(this);
 
-        //MainMenu();
-        buildPanel();
-        start_round();
+        MainMenu();
+        //buildPanel();
+        //start_round();
     }
 
     public int promptNumPlayers(){
@@ -90,7 +94,7 @@ class YahtzeePanel extends JPanel implements ActionListener, Serializable
         return players;
     }
 
-    /*
+    
     public void MainMenu(){
         this.removeAll();
 
@@ -104,7 +108,7 @@ class YahtzeePanel extends JPanel implements ActionListener, Serializable
         Mainplay.addActionListener(this);
         add(Mainplay);
     }
-    */
+    
 
     public void buildPanel(){
         this.removeAll();
@@ -119,6 +123,24 @@ class YahtzeePanel extends JPanel implements ActionListener, Serializable
     //only updates dice and buttons, not scorecards
     public void start_round()
     {
+
+        this.removeAll();
+
+        PLAYERS = promptNumPlayers();
+
+        dice = new Dice();
+        scoresheet = new Scoresheet(PLAYERS, dice, this);
+        round = 0;
+        curPlayer = 1;
+        roll = new JButton("ROLL");
+        roll.addActionListener(this);
+        play = new JButton("PLAY");
+        play.addActionListener(this);
+
+        buildPanel();
+        
+        this.revalidate();
+
         play.setEnabled(false);
         round++;
         turn = 0;
@@ -170,6 +192,7 @@ class YahtzeePanel extends JPanel implements ActionListener, Serializable
             System.out.println("class not found");
         }
     }
+    
     public void set_playable(boolean b){ play.setEnabled(b); }
 
     public void actionPerformed(ActionEvent e)
@@ -193,7 +216,6 @@ class YahtzeePanel extends JPanel implements ActionListener, Serializable
         }
         else if(e.getSource() == Mainplay){
             System.out.println("play clicked");
-            buildPanel();
             start_round();
         }
 
