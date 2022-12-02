@@ -321,7 +321,7 @@ public class Scoresheet implements Serializable{
 
             scores [ypanel.getCurPlayer() - 1][pressed.getCatagory().ordinal()] = compute_score(pressed.getCatagory(), handler_dice);
             //prospective = new int [2];
-            prospective[0] = 0;
+            prospective[0] = ypanel.getCurPlayer() - 1;
             prospective[1] = pressed.getCatagory().ordinal();
 
             update_panel();
