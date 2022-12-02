@@ -21,6 +21,7 @@ import java.awt.Component;
 import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
+import java.lang.*;
 import java.io.Serializable;
 import java.io.*;
 
@@ -61,13 +62,18 @@ class YahtzeePanel extends JPanel implements ActionListener, Serializable
     private Integer turn, round;
     private transient JButton roll, play, Mainplay;
     private boolean playable;
+    private int PLAYERS;
+    private int curPlayer;
 
     public YahtzeePanel()
     {
+        PLAYERS = promptNumPlayers();
+
         //start_game();
         dice = new Dice();
-        scoresheet = new Scoresheet(2, dice, this);
+        scoresheet = new Scoresheet(PLAYERS, dice, this);
         round = 0;
+        curPlayer = 1;
         roll = new JButton("ROLL");
         roll.addActionListener(this);
         play = new JButton("PLAY");
@@ -76,6 +82,12 @@ class YahtzeePanel extends JPanel implements ActionListener, Serializable
         //MainMenu();
         buildPanel();
         start_round();
+    }
+
+    public int promptNumPlayers(){
+        String num_players = JOptionPane.showInputDialog("How many people are playing?");
+        int players = Integer.parseInt(num_players);
+        return players;
     }
 
     /*
@@ -120,7 +132,7 @@ class YahtzeePanel extends JPanel implements ActionListener, Serializable
             s.close();
             System.out.println("Successfully saved game!");
         } catch (IOException error) {
-            //error.printStackTrace();
+            error.printStackTrace();
             System.out.println("IO save error: file stream");
         }
     }
@@ -139,6 +151,8 @@ class YahtzeePanel extends JPanel implements ActionListener, Serializable
             this.turn = loaded_panel.turn;
             this.round = loaded_panel.round;
             this.playable = loaded_panel.playable;
+            this.curPlayer = loaded_panel.curPlayer;
+            this.PLAYERS = loaded_panel.PLAYERS;
 
             dice.panel.update_dice_buttons();
 
@@ -148,11 +162,11 @@ class YahtzeePanel extends JPanel implements ActionListener, Serializable
             System.out.println("Loaded previous game!");
         } 
         catch (IOException error) {
-            //error.printStackTrace();
+            error.printStackTrace();
             System.out.println("IO load error");
         }
         catch (ClassNotFoundException e) {
-            //e.printStackTrace();
+            e.printStackTrace();
             System.out.println("class not found");
         }
     }

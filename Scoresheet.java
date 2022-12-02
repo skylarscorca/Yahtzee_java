@@ -73,13 +73,14 @@ public class Scoresheet implements Serializable{
     }
 
     public void copy(Scoresheet rhs){
+        players = rhs.players;
+        scores = new int [players][13];
+        
         for (int player = 0; player < players; player++){
             for (int score = 0; score < 13; score++){
                 scores[player][score] = rhs.scores[player][score];
             }
         }
-
-        players = rhs.players;
 
         handler_dice.copy(rhs.handler_dice);
     }
