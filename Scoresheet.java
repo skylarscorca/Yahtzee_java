@@ -309,6 +309,7 @@ public class Scoresheet implements Serializable{
         }
 
         public void actionPerformed(ActionEvent e){
+            int curPlayer = ypanel.getCurPlayer();
 
             CategoryToggleButton pressed = (CategoryToggleButton)e.getSource();
 
@@ -318,7 +319,7 @@ public class Scoresheet implements Serializable{
 
             if ( prospective[0] != -1){ scores [ prospective[0] ][ prospective[1] ] = -1; }
 
-            scores [0][pressed.getCatagory().ordinal()] = compute_score(pressed.getCatagory(), handler_dice);
+            scores [ypanel.getCurPlayer() - 1][pressed.getCatagory().ordinal()] = compute_score(pressed.getCatagory(), handler_dice);
             //prospective = new int [2];
             prospective[0] = 0;
             prospective[1] = pressed.getCatagory().ordinal();
