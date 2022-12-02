@@ -73,7 +73,7 @@ class YahtzeePanel extends JPanel implements ActionListener, Serializable
         dice = new Dice();
         scoresheet = new Scoresheet(PLAYERS, dice, this);
         round = 0;
-        curPlayer = 1;
+        curPlayer = 0;
         roll = new JButton("ROLL");
         roll.addActionListener(this);
         play = new JButton("PLAY");
@@ -119,9 +119,16 @@ class YahtzeePanel extends JPanel implements ActionListener, Serializable
     //only updates dice and buttons, not scorecards
     public void start_round()
     {
+        curPlayer++;
+        if(curPlayer > PLAYERS){
+            curPlayer = 1;
+        }
+        roll.setEnabled(true);
         play.setEnabled(false);
         round++;
         turn = 0;
+        dice.reset();
+        dice.panel.update_dice_buttons();
     }
 
     private void save_data(){
@@ -184,6 +191,7 @@ class YahtzeePanel extends JPanel implements ActionListener, Serializable
         }
         else if(e.getSource() == play){
             scoresheet.play();
+            start_round();
         }
         else if(e.getSource() == Yahtzee.load){
             load_data();

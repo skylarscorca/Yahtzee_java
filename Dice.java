@@ -39,6 +39,12 @@ public class Dice implements Serializable{
         panel = new DicePanel();
     }
 
+    public void reset(){
+        for (int i = 0; i < 5; ++i){
+            dice[i] = new Die();
+        }
+    }
+
     public void copy(Dice rhs){
         for (int i = 0; i < 5; ++i){
             dice[i] = rhs.dice[i];
@@ -99,6 +105,9 @@ public class Dice implements Serializable{
                 Icon face = new ImageIcon(newimg);  // transform it back
 
                 dice_buttons[i].setIcon(face);
+                if(dice[i].getValue() == 0){
+                    dice_buttons[i].setSelected(false);
+                }
             }
         }
     }
