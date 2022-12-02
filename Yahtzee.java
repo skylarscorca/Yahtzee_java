@@ -72,15 +72,12 @@ class YahtzeePanel extends JPanel implements ActionListener, Serializable
 
     public int promptNumPlayers(){
         String num_players = JOptionPane.showInputDialog("How many people are playing?");
-        int players = Integer.parseInt(num_players);
-        return players;
+        return Integer.parseInt(num_players);
     }
 
-    
     public int getCurPlayer(){
         return curPlayer;
     }
-
 
     public void MainMenu(){
         this.removeAll();
@@ -102,7 +99,6 @@ class YahtzeePanel extends JPanel implements ActionListener, Serializable
         }
     }
     
-
     public void buildPanel(){
         this.removeAll();
 
@@ -141,7 +137,6 @@ class YahtzeePanel extends JPanel implements ActionListener, Serializable
         turn = 0;
         dice.reset();
     }
-
 
     //only updates dice and buttons, not scorecards
     public void start_round()
