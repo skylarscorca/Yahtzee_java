@@ -38,11 +38,12 @@ public class Scoresheet implements Serializable{
     }
 
     int [][] scores;
-    int [] prospective;
+    transient int [] prospective;
     int players;
     Dice handler_dice;
     YahtzeePanel ypanel;
-    ScoresheetPanel panel;
+    transient ScoresheetPanel panel;
+
     static String [] scoringCategories = {
         "Aces",
         "Twos",
@@ -69,6 +70,18 @@ public class Scoresheet implements Serializable{
         reset_scores();
         panel = new ScoresheetPanel();
         panel.update_panel();
+    }
+
+    public void copy(Scoresheet rhs){
+        for (int player = 0; player < players; player++){
+            for (int score = 0; score < 13; score++){
+                scores[player][score] = rhs.scores[player][score];
+            }
+        }
+
+        players = rhs.players;
+
+        handler_dice.copy(rhs.handler_dice);
     }
  
     void reset_scores(){

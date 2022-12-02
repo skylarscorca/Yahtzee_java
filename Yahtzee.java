@@ -117,7 +117,7 @@ class YahtzeePanel extends JPanel implements ActionListener, Serializable
             s.close();
 
             //load into current panel
-            this.scoresheet = loaded_panel.scoresheet;
+            this.scoresheet.copy(loaded_panel.scoresheet);
             this.dice.copy(loaded_panel.dice);
             this.turn = loaded_panel.turn;
             this.round = loaded_panel.round;
