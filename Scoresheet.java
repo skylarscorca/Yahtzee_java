@@ -309,7 +309,6 @@ public class Scoresheet implements Serializable{
         }
 
         public void actionPerformed(ActionEvent e){
-            int curPlayer = ypanel.getCurPlayer();
 
             CategoryToggleButton pressed = (CategoryToggleButton)e.getSource();
 
