@@ -68,24 +68,6 @@ class YahtzeePanel extends JPanel implements ActionListener, Serializable
     public YahtzeePanel()
     {
         MainMenu();
-    }   
-    
-    {
-        //PLAYERS = promptNumPlayers();
-
-        //start_game();
-        dice = new Dice();
-        scoresheet = new Scoresheet(PLAYERS, dice, this);
-        round = 0;
-        curPlayer = 1;
-        roll = new JButton("ROLL");
-        roll.addActionListener(this);
-        play = new JButton("PLAY");
-        play.addActionListener(this);
-
-        MainMenu();
-        //buildPanel();
-        //start_round();
     }
 
     public int promptNumPlayers(){
@@ -121,9 +103,8 @@ class YahtzeePanel extends JPanel implements ActionListener, Serializable
     }
 
     //only updates dice and buttons, not scorecards
-    public void start_round()
+    public void start_game()
     {
-
         this.removeAll();
 
         PLAYERS = promptNumPlayers();
@@ -141,9 +122,25 @@ class YahtzeePanel extends JPanel implements ActionListener, Serializable
         
         this.revalidate();
 
+        turn = 0;
+        dice.reset();
+    }
+
+
+    //only updates dice and buttons, not scorecards
+    public void start_round()
+    {
+        curPlayer++;
+        if(curPlayer > PLAYERS){
+            curPlayer = 1;
+        }
+        roll.setEnabled(true);
         play.setEnabled(false);
         round++;
+
         turn = 0;
+        dice.reset();
+        dice.panel.update_dice_buttons();
     }
 
     private void save_data(){
@@ -207,6 +204,7 @@ class YahtzeePanel extends JPanel implements ActionListener, Serializable
         }
         else if(e.getSource() == play){
             scoresheet.play();
+            start_round();
         }
         else if(e.getSource() == Yahtzee.load){
             load_data();
@@ -216,7 +214,7 @@ class YahtzeePanel extends JPanel implements ActionListener, Serializable
         }
         else if(e.getSource() == Mainplay){
             System.out.println("play clicked");
-            start_round();
+            start_game();
         }
 
     }
