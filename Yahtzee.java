@@ -59,7 +59,7 @@ class YahtzeePanel extends JPanel implements ActionListener, Serializable
     private Scoresheet scoresheet;
     private Dice dice;
     private Integer turn, round;
-    private transient JButton roll, play;
+    private transient JButton roll, play, Mainplay;
     private boolean playable;
 
     public YahtzeePanel()
@@ -73,9 +73,26 @@ class YahtzeePanel extends JPanel implements ActionListener, Serializable
         play = new JButton("PLAY");
         play.addActionListener(this);
 
+        //MainMenu();
         buildPanel();
         start_round();
     }
+
+    /*
+    public void MainMenu(){
+        this.removeAll();
+
+        setLayout(new FlowLayout());
+        JLabel title = new JLabel("YAHTZEE!");
+        title.setFont(new Font("Serif", Font.PLAIN, 100));
+        add(title);
+        add(new JLabel("java edition"));
+
+        Mainplay = new JButton("PLAY!");
+        Mainplay.addActionListener(this);
+        add(Mainplay);
+    }
+    */
 
     public void buildPanel(){
         this.removeAll();
@@ -159,6 +176,11 @@ class YahtzeePanel extends JPanel implements ActionListener, Serializable
         }
         else if(e.getSource() == Yahtzee.save){
             save_data();
+        }
+        else if(e.getSource() == Mainplay){
+            System.out.println("play clicked");
+            buildPanel();
+            start_round();
         }
 
     }
