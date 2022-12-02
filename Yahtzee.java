@@ -90,6 +90,10 @@ class YahtzeePanel extends JPanel implements ActionListener, Serializable
         return players;
     }
 
+    public int getCurPlayer(){
+        return curPlayer;
+    }
+
     /*
     public void MainMenu(){
         this.removeAll();
