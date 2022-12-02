@@ -60,7 +60,7 @@ class YahtzeePanel extends JPanel implements ActionListener, Serializable
     private Scoresheet scoresheet;
     private Dice dice;
     private Integer turn, round;
-    private transient JButton roll, play, Mainplay;
+    private transient JButton roll, play, NewGame, LoadGame;
     private boolean playable;
     private int PLAYERS;
     private int curPlayer;
@@ -86,11 +86,17 @@ class YahtzeePanel extends JPanel implements ActionListener, Serializable
         JLabel title = new JLabel("YAHTZEE!");
         title.setFont(new Font("Serif", Font.PLAIN, 100));
         add(title);
-        add(new JLabel("java edition"));
 
-        Mainplay = new JButton("PLAY!");
-        Mainplay.addActionListener(this);
-        add(Mainplay);
+        NewGame = new JButton("New Game");
+        NewGame.addActionListener(this);
+        add(NewGame);
+
+        File f = new File("game_data.txt");
+        LoadGame = new JButton("Load Game");
+        LoadGame.addActionListener(this);
+        if(f.exists()){
+            add(LoadGame);
+        }
     }
     
     public void buildPanel(){
@@ -104,11 +110,16 @@ class YahtzeePanel extends JPanel implements ActionListener, Serializable
     }
 
     //only updates dice and buttons, not scorecards
-    public void start_game()
+    public void start_game(boolean newgame)
     {
         this.removeAll();
 
-        PLAYERS = promptNumPlayers();
+        if(newgame){
+            PLAYERS = promptNumPlayers();
+        }
+        else{
+            PLAYERS = 1;
+        }
 
         dice = new Dice();
         scoresheet = new Scoresheet(PLAYERS, dice, this);
@@ -212,10 +223,12 @@ class YahtzeePanel extends JPanel implements ActionListener, Serializable
         else if(e.getSource() == Yahtzee.save){
             save_data();
         }
-        else if(e.getSource() == Mainplay){
-            System.out.println("play clicked");
-            start_game();
+        else if(e.getSource() == NewGame){
+            start_game(true);
         }
-
+        else if(e.getSource() == LoadGame){
+            start_game(false);
+            load_data();
+        }
     }
 }

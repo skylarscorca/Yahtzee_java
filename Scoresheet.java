@@ -325,7 +325,6 @@ public class Scoresheet implements Serializable{
             };
 
             update_panel();
-
         }
     
     }
