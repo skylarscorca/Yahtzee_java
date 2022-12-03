@@ -150,7 +150,7 @@ class YahtzeePanel extends JPanel implements ActionListener, Serializable
             players = 1;
         }
 
-        if(PLAYERS <= 0){
+        if(players <= 0){
             return;
         }
 
