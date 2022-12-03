@@ -19,6 +19,17 @@ Any additional Yahtzee can be used in any other category.
 No bonus Yahtzees will be counted. 
 Bonus Yahtzee rules are not used in competitive Yahtzee, so we left this rule out to emulate a competitive scenario.
 
+Extra Features:
+Main Menu
+Save and Load
+Unlimited players
+
+How to run once unpacked:
+java Yahtzee
+
 Contributors:
 Skylar Scorca
 Alec Tremblay
+
+External Resources:
+Dice Faces: https://commons.wikimedia.org/wiki/Category:Dice_faces
