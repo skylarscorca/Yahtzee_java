@@ -290,7 +290,14 @@ public class Scoresheet implements Serializable{
 
             this.add(new JLabel(""));
             for (int player = 0; player < players; player++){
-                this.add(new JLabel("Player " + (player + 1)));
+                JLabel playerLabel = new JLabel("Player " + (player + 1));
+
+                if ( ypanel.getCurPlayer() == player + 1 ){
+                    playerLabel.setForeground(Color.RED);    
+                }
+
+                this.add(playerLabel);
+            
             }
 
             for (int catagory = 0; catagory < 13; catagory++){

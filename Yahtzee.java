@@ -51,7 +51,7 @@ public class Yahtzee
       save.addActionListener(yp);
       load.addActionListener(yp);
       frame.add(yp);
-      frame.setSize(550, 450); // set frame size
+      frame.setSize(550, 475); // set frame size
       frame.setVisible(true); // display frame
    }
 }
@@ -253,7 +253,6 @@ class YahtzeePanel extends JPanel implements ActionListener, Serializable
             dice.panel.updateDiceButtons();
         }
         else if(e.getSource() == play){
-            scoresheet.play();
             System.out.println(curPlayer + " " + players + " " + round);
             if ( curPlayer == players && round == 12){
                 EndGame();
@@ -261,6 +260,7 @@ class YahtzeePanel extends JPanel implements ActionListener, Serializable
             else {
                 start_round();
             }
+            scoresheet.play();
         }
         else if(e.getSource() == Yahtzee.load){
             start_game(false);
