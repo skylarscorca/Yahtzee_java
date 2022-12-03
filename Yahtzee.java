@@ -171,6 +171,7 @@ class YahtzeePanel extends JPanel implements ActionListener, Serializable
 
         turn = 0;
         dice.reset();
+        scoresheet.play();
     }
 
 
