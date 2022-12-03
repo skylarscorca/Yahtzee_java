@@ -286,7 +286,7 @@ public class Scoresheet implements Serializable{
         void update_panel(){
             this.removeAll();
 
-            this.setLayout(new GridLayout(14, players + 1));
+            this.setLayout(new GridLayout(15, players + 1));
 
             this.add(new JLabel(""));
             for (int player = 0; player < players; player++){
@@ -307,6 +307,23 @@ public class Scoresheet implements Serializable{
 
                     this.add(label);
                 }
+            }
+
+            JLabel label = new JLabel("Total");
+            add(label);
+            
+            for(int player = 0; player < players; player++){
+                int total_score = 0;
+                for(int category = 0; category < 13; category++){
+                    if(prospective[0] == player && prospective[1] == category){
+                        continue;
+                    }
+                    if(scores[player][category] > 0){
+                        total_score += scores[player][category];
+                    }
+                }
+                JLabel score_label = new JLabel(String.format("%d", total_score));
+                add(score_label);
             }
 
             //draw borders
