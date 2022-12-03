@@ -72,12 +72,18 @@ class YahtzeePanel extends JPanel implements ActionListener, Serializable
 
     public int promptNumPlayers(){
         String num_players = JOptionPane.showInputDialog("How many people are playing?");
-        return Integer.parseInt(num_players);
+        if(num_players == null){
+            return -1;
+        }
+        int players = Integer.parseInt(num_players);
+        return players;
     }
 
+    
     public int getCurPlayer(){
         return curPlayer;
     }
+
 
     public void MainMenu(){
         this.removeAll();
@@ -99,6 +105,7 @@ class YahtzeePanel extends JPanel implements ActionListener, Serializable
         }
     }
     
+
     public void buildPanel(){
         this.removeAll();
 
@@ -112,14 +119,18 @@ class YahtzeePanel extends JPanel implements ActionListener, Serializable
     //only updates dice and buttons, not scorecards
     public void start_game(boolean newgame)
     {
-        this.removeAll();
-
         if(newgame){
             PLAYERS = promptNumPlayers();
         }
         else{
             PLAYERS = 1;
         }
+
+        if(PLAYERS <= 0){
+            return;
+        }
+
+        this.removeAll();
 
         dice = new Dice();
         scoresheet = new Scoresheet(PLAYERS, dice, this);
@@ -137,6 +148,7 @@ class YahtzeePanel extends JPanel implements ActionListener, Serializable
         turn = 0;
         dice.reset();
     }
+
 
     //only updates dice and buttons, not scorecards
     public void start_round()
@@ -218,10 +230,13 @@ class YahtzeePanel extends JPanel implements ActionListener, Serializable
             start_round();
         }
         else if(e.getSource() == Yahtzee.load){
+            start_game(false);
             load_data();
         }
         else if(e.getSource() == Yahtzee.save){
-            save_data();
+            if(scoresheet != null){
+                save_data();
+            }
         }
         else if(e.getSource() == NewGame){
             start_game(true);
