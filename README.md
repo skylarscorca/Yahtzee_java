@@ -17,7 +17,7 @@ Notes on the rules:
 This version does not use the Hasbro's Joker Yahtzee rules. 
 Any additional Yahtzee can be used in any other category. 
 No bonus Yahtzees will be counted. 
-The rules used in this application are based on the rules used in Hasbro's app Yahtzee with Buddies.
+Bonus Yahtzee rules are not used in competitive Yahtzee, so we left this rule out to emulate a competitive scenario.
 
 Contributors:
 Skylar Scorca
