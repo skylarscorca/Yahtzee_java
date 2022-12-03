@@ -17,7 +17,6 @@ import javax.swing.border.Border;
 import javax.swing.BorderFactory;
 import javax.swing.JComponent;
 import java.awt.Component;
-import javax.swing.ButtonGroup;
 import java.io.Serializable;
 
 public class Scoresheet implements Serializable{
@@ -40,7 +39,7 @@ public class Scoresheet implements Serializable{
     int [][] scores;
     transient int [] prospective;
     int players;
-    Dice handler_dice;
+    Dice handlerDice;
     YahtzeePanel ypanel;
     transient ScoresheetPanel panel;
 
@@ -62,7 +61,7 @@ public class Scoresheet implements Serializable{
 
     public Scoresheet(int player_count, Dice dice, YahtzeePanel yahtzeePanel){
         players = player_count;
-        handler_dice = dice;
+        handlerDice = dice;
         ypanel = yahtzeePanel;
         scores = new int [player_count][13];
         prospective = new int[] { -1 , -1 };
@@ -82,7 +81,7 @@ public class Scoresheet implements Serializable{
             }
         }
 
-        handler_dice.copy(rhs.handler_dice);
+        handlerDice.copy(rhs.handlerDice);
     }
  
     void reset_scores(){
@@ -91,6 +90,22 @@ public class Scoresheet implements Serializable{
                 scores[player][score] = -1;
             }
         }
+    }
+
+    public int [] getResult(){
+        int winner [] = {0, 0};
+
+        for (int player = 0; player < players; player++ ){
+            int score = 0;
+            for (int catagory = 0; catagory < 13; catagory++){
+                if ( scores[player][catagory] >= 0){ score += scores[player][catagory]; }
+            }
+            if (winner[1] < score){
+                winner = new int [] {player, score};
+            }
+        }
+
+        return winner;
     }
 
     public int compute_score(Category cat, Dice dice){
@@ -262,7 +277,6 @@ public class Scoresheet implements Serializable{
     // the function would take in an int[6] or maybe a Dice object would be easier
 
     class ScoresheetPanel extends JPanel implements ActionListener {
-        private ButtonGroup group;
         JToggleButton [] cat_buttons;
 
         ScoresheetPanel(){
@@ -309,18 +323,17 @@ public class Scoresheet implements Serializable{
         }
 
         public void actionPerformed(ActionEvent e){
-            int curPlayer = ypanel.getCurPlayer();
 
             CategoryToggleButton pressed = (CategoryToggleButton)e.getSource();
 
-            ypanel.set_playable(true);
 
             System.out.println(pressed.getCatagory().toString() + " " + pressed.getCatagory().ordinal());
 
             if ( prospective[0] != -1){ scores [ prospective[0] ][ prospective[1] ] = -1; }
 
             if ( scores [ypanel.getCurPlayer() - 1][pressed.getCatagory().ordinal()] < 0){
-                scores [ypanel.getCurPlayer() - 1][pressed.getCatagory().ordinal()] = compute_score(pressed.getCatagory(), handler_dice);
+                ypanel.set_playable(true);
+                scores [ypanel.getCurPlayer() - 1][pressed.getCatagory().ordinal()] = compute_score(pressed.getCatagory(), handlerDice);
                 prospective[0] = ypanel.getCurPlayer() - 1;
                 prospective[1] = pressed.getCatagory().ordinal();
             };

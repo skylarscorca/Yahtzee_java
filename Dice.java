@@ -57,7 +57,7 @@ public class Dice implements Serializable{
 
     public void roll_dice(){
         for(int i = 0; i < 5; i++){
-            if(!panel.dice_buttons[i].isSelected() || dice[i].getValue() == 0){
+            if(!panel.diceButtons[i].isSelected() || dice[i].getValue() == 0){
                 dice[i].roll();
             }
         }
@@ -80,10 +80,10 @@ public class Dice implements Serializable{
     }
 
     class DicePanel extends JPanel {
-        private JToggleButton dice_buttons[];
+        private JToggleButton diceButtons[];
 
         public DicePanel(){
-            dice_buttons = new JToggleButton[5];
+            diceButtons = new JToggleButton[5];
 
             for(int i = 0; i < 5; i++){
                 ImageIcon imageIcon = new ImageIcon(getClass().getResource(iconPaths[0])); // load the initial image to a imageIcon
@@ -91,22 +91,22 @@ public class Dice implements Serializable{
                 Image newimg = image.getScaledInstance(64, 64,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way  
                 Icon face = new ImageIcon(newimg);  // transform it back
 
-                dice_buttons[i] = new JToggleButton(face);
+                diceButtons[i] = new JToggleButton(face);
 
-                add(dice_buttons[i]);
+                add(diceButtons[i]);
             }
         }
 
-        void update_dice_buttons(){
+        void updateDiceButtons(){
             for(int i = 0; i < 5; i++){
                 ImageIcon imageIcon = new ImageIcon(getClass().getResource(iconPaths[dice[i].getValue()])); // load the image to a imageIcon
                 Image image = imageIcon.getImage(); // transform it 
                 Image newimg = image.getScaledInstance(64, 64,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way  
                 Icon face = new ImageIcon(newimg);  // transform it back
 
-                dice_buttons[i].setIcon(face);
+                diceButtons[i].setIcon(face);
                 if(dice[i].getValue() == 0){
-                    dice_buttons[i].setSelected(false);
+                    diceButtons[i].setSelected(false);
                 }
             }
         }

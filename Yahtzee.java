@@ -1,5 +1,6 @@
 import javax.swing.JFrame;
 import java.awt.FlowLayout;
+import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -60,9 +61,9 @@ class YahtzeePanel extends JPanel implements ActionListener, Serializable
     private Scoresheet scoresheet;
     private Dice dice;
     private Integer turn, round;
-    private transient JButton roll, play, NewGame, LoadGame;
+    private transient JButton roll, play, newGame, loadGame;
     private boolean playable;
-    private int PLAYERS;
+    private int players;
     private int curPlayer;
 
     public YahtzeePanel()
@@ -70,7 +71,7 @@ class YahtzeePanel extends JPanel implements ActionListener, Serializable
         MainMenu();
     }
 
-    public int promptNumPlayers(){
+    public int promptNumplayers(){
         String num_players = JOptionPane.showInputDialog("How many people are playing?");
         if(num_players == null){
             return -1;
@@ -93,18 +94,42 @@ class YahtzeePanel extends JPanel implements ActionListener, Serializable
         title.setFont(new Font("Serif", Font.PLAIN, 100));
         add(title);
 
-        NewGame = new JButton("New Game");
-        NewGame.addActionListener(this);
-        add(NewGame);
+        newGame = new JButton("New Game");
+        newGame.addActionListener(this);
+        add(newGame);
 
         File f = new File("game_data.txt");
-        LoadGame = new JButton("Load Game");
-        LoadGame.addActionListener(this);
+        loadGame = new JButton("Load Game");
+        loadGame.addActionListener(this);
         if(f.exists()){
-            add(LoadGame);
+            add(loadGame);
         }
     }
     
+    public void EndGame(){
+        this.removeAll();
+
+        setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+        JLabel winner = new JLabel("Player " + (scoresheet.getResult()[0] + 1) + " wins!");
+        winner.setFont(new Font("Serif", Font.PLAIN, 64));
+        add(winner);
+
+        JLabel winnerScore = new JLabel("with a score of " + scoresheet.getResult()[1]);
+        add(winnerScore);
+
+        newGame = new JButton("New Game");
+        newGame.addActionListener(this);
+        add(newGame);
+
+        File f = new File("game_data.txt");
+        loadGame = new JButton("Load Game");
+        loadGame.addActionListener(this);
+        if(f.exists()){
+            add(loadGame);
+        }
+        this.revalidate();
+        this.repaint();
+    }
 
     public void buildPanel(){
         this.removeAll();
@@ -116,14 +141,13 @@ class YahtzeePanel extends JPanel implements ActionListener, Serializable
         add(play);
     }
 
-    //only updates dice and buttons, not scorecards
-    public void start_game(boolean newgame)
+    public void start_game(boolean newGame)
     {
-        if(newgame){
-            PLAYERS = promptNumPlayers();
+        if(newGame){
+            players = promptNumplayers();
         }
         else{
-            PLAYERS = 1;
+            players = 1;
         }
 
         if(PLAYERS <= 0){
@@ -133,7 +157,7 @@ class YahtzeePanel extends JPanel implements ActionListener, Serializable
         this.removeAll();
 
         dice = new Dice();
-        scoresheet = new Scoresheet(PLAYERS, dice, this);
+        scoresheet = new Scoresheet(players, dice, this);
         round = 0;
         curPlayer = 1;
         roll = new JButton("ROLL");
@@ -154,16 +178,19 @@ class YahtzeePanel extends JPanel implements ActionListener, Serializable
     public void start_round()
     {
         curPlayer++;
-        if(curPlayer > PLAYERS){
+        if(curPlayer > players){
             curPlayer = 1;
         }
         roll.setEnabled(true);
         play.setEnabled(false);
-        round++;
+
+        if (curPlayer == 1){
+            round++;
+        }
 
         turn = 0;
         dice.reset();
-        dice.panel.update_dice_buttons();
+        dice.panel.updateDiceButtons();
     }
 
     private void save_data(){
@@ -194,9 +221,9 @@ class YahtzeePanel extends JPanel implements ActionListener, Serializable
             this.round = loaded_panel.round;
             this.playable = loaded_panel.playable;
             this.curPlayer = loaded_panel.curPlayer;
-            this.PLAYERS = loaded_panel.PLAYERS;
+            this.players = loaded_panel.players;
 
-            dice.panel.update_dice_buttons();
+            dice.panel.updateDiceButtons();
 
             buildPanel();
             scoresheet.panel.update_panel();
@@ -223,11 +250,17 @@ class YahtzeePanel extends JPanel implements ActionListener, Serializable
             if(turn >= 3){
                 roll.setEnabled(false);
             }
-            dice.panel.update_dice_buttons();
+            dice.panel.updateDiceButtons();
         }
         else if(e.getSource() == play){
             scoresheet.play();
-            start_round();
+            System.out.println(curPlayer + " " + players + " " + round);
+            if ( curPlayer == players && round == 12){
+                EndGame();
+            }
+            else {
+                start_round();
+            }
         }
         else if(e.getSource() == Yahtzee.load){
             start_game(false);
@@ -238,10 +271,10 @@ class YahtzeePanel extends JPanel implements ActionListener, Serializable
                 save_data();
             }
         }
-        else if(e.getSource() == NewGame){
+        else if(e.getSource() == newGame){
             start_game(true);
         }
-        else if(e.getSource() == LoadGame){
+        else if(e.getSource() == loadGame){
             start_game(false);
             load_data();
         }
