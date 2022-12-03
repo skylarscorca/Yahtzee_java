@@ -323,6 +323,9 @@ public class Scoresheet implements Serializable{
         }
 
         public void actionPerformed(ActionEvent e){
+            for(int i = 0; i < 5; i++){
+                if(handlerDice.getValue(i) < 1){return;}
+            }
 
             CategoryToggleButton pressed = (CategoryToggleButton)e.getSource();
 
